@@ -1,3 +1,8 @@
+
+$(document).ready(function() {
+$('select').material_select();
+});
+
 /*
   Creación de una función personalizada para jQuery que detecta cuando se detiene el scroll en la página
 */

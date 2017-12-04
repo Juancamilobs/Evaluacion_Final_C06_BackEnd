@@ -10,6 +10,8 @@
   <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Formulario</title>
+  <?php include "function.php";?>
+  
 </head>
 
 <body>
@@ -20,7 +22,7 @@
       <h1>Buscador</h1>
     </div>
     <div class="colFiltros">
-      <form action="buscador.php" method="post" id="formulario">
+      <form id="formulario">
         <div class="filtrosContenido">
           <div class="tituloFiltros">
             <h5>Realiza una búsqueda personalizada</h5>
@@ -28,13 +30,16 @@
           <div class="filtroCiudad input-field">
             <label for="selectCiudad">Ciudad:</label>
             <select name="ciudad" id="selectCiudad">
-              <option value="" selected>Elige una ciudad</option>
+              <option value="" disabled selected>Elige una ciudad</option>
+              <?php Ciudad($propiedades); ?>
+
             </select>
           </div>
           <div class="filtroTipo input-field">
             <label for="selecTipo">Tipo:</label><br>
             <select name="tipo" id="selectTipo">
-              <option value="" selected>Elige un tipo</option>
+              <option value="x" selected>Elige un tipo</option>
+              <?php Tipo($propiedades); ?>
             </select>
           </div>
           <div class="filtroPrecio">
@@ -52,9 +57,10 @@
       <div class="tituloContenido card">
         <h5>Resultados de la búsqueda:</h5>
         <div class="divider"></div>
-        <button type="button" name="todos" class="btn-flat waves-effect" id="mostrarTodos">Mostrar Todos</button>
-      </div>
-
+        <button  type="button" name="todos" class="btn-flat waves-effect" id="mostrarTodos">Mostrar Todos</button>
+        </div>
+        if (isset($_POST["submit"])) { php code here }
+         <?php ?>
     </div>
   </div>
 
