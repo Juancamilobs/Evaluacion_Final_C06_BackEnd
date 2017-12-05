@@ -35,6 +35,7 @@ function Tipo($data){
 	}
 	echo $estructura;
 }
+
 function mostrarTodo($data){
   foreach ($data as $prop ) {
       $estructura = "<div class='itemMostrado card'>";

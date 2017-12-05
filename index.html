@@ -10,8 +10,8 @@
   <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Formulario</title>
-  <?php include "function.php";?>
-  
+
+
 </head>
 
 <body>
@@ -30,16 +30,16 @@
           <div class="filtroCiudad input-field">
             <label for="selectCiudad">Ciudad:</label>
             <select name="ciudad" id="selectCiudad">
-              <option value="" disabled selected>Elige una ciudad</option>
-              <?php Ciudad($propiedades); ?>
+              <option value="x" disabled selected>Elige una ciudad</option>
+
 
             </select>
           </div>
           <div class="filtroTipo input-field">
-            <label for="selecTipo">Tipo:</label><br>
+            <label for="selectTipo">Tipo:</label><br>
             <select name="tipo" id="selectTipo">
-              <option value="x" selected>Elige un tipo</option>
-              <?php Tipo($propiedades); ?>
+              <option value="x" disabled selected>Elige un tipo</option>
+
             </select>
           </div>
           <div class="filtroPrecio">
@@ -57,10 +57,9 @@
       <div class="tituloContenido card">
         <h5>Resultados de la búsqueda:</h5>
         <div class="divider"></div>
-        <button  type="button" name="todos" class="btn-flat waves-effect" id="mostrarTodos">Mostrar Todos</button>
+        <button  type="button" name="todos" class="btn-flat waves-effect" id="btnTodos">Mostrar Todos</button>
         </div>
-        if (isset($_POST["submit"])) { php code here }
-         <?php ?>
+
     </div>
   </div>
 
@@ -68,5 +67,6 @@
   <script type="text/javascript" src="js/ion.rangeSlider.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
+
 </body>
 </html>
