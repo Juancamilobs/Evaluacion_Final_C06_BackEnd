@@ -23,9 +23,8 @@ function cargarDatos(){
   }).then(function () {
       cargarTipo(datos);
       cargarCiudad(datos);
-      cargarFiltros();
       mostrarTodos(datos);
-      filtrar();
+      filtrar(datos);
 
   });
 
@@ -75,7 +74,7 @@ function cargarTipo (archivo){
   Funcion para convertir los rangos de precios a numeros
   */
   function toNumber(cifra){
-    numeroTemp = Number(cifra.replace("$","").replace(" ",""));
+    numeroTemp = Number(cifra.replace("$","").replace(" ","").replace(",",""));
     return numeroTemp
   }
 /*
@@ -83,26 +82,66 @@ function cargarTipo (archivo){
 */
   function mostrarTodos(datos){
     $('#btnTodos').on('click',function(){
+       $('.itemMostrado').remove();
         for (i=0;i<datos.length;i++){
-          estructura = "<div class='itemMostrado card'>" +
-                       "<img src='img/home.jpg' alt='Demo'>" +
-                       "<div class='card-stacked'>" +
-                       "<strong>Dirección: </strong>" + datos[i].Direccion + "</br>" +
-                       "<strong>Ciudad: </strong>" + datos[i].Ciudad + "</br>" +
-                       "<strong>Teléfono: </strong>" + datos[i].Telefono + "</br>" +
-                       "<strong>Código Postal: </strong>" + datos[i].Codigo_Postal + "</br>" +
-                       "<strong>Tipo: </strong>" + datos[i].Tipo + "</br>" +
-                       "<strong>Precio: </strong><span class='precioTexto'>" + datos[i].Precio + "</span></br>" +
-                       "<div class='card-action'>VENTAS</div>" +
-                       "</div>" +
-                       "</div>";
-          $('.colContenido').append(estructura);
+          $('.colContenido').append(plantilla(datos[i].Direccion,datos[i].Ciudad,datos[i].Telefono,datos[i].Codigo_Postal,datos[i].Tipo,datos[i].Precio));
         }
     })
   }
 /*
   Funcion para filtrar las propiedades
 */
+ function filtrar(datos){
+   $('#formulario').submit(function(event){
+     event.preventDefault();
+     $('.itemMostrado').remove();
+     cargarFiltros();
+     if (filtroCiudad == null && filtroTipo == null){
+       for (i=0;i<datos.length;i++){
+         if (toNumber(datos[i].Precio) > filtroMinimo && toNumber(datos[i].Precio) < filtroMaximo){
+           $('.colContenido').append(plantilla(datos[i].Direccion,datos[i].Ciudad,datos[i].Telefono,datos[i].Codigo_Postal,datos[i].Tipo,datos[i].Precio));
+         }
+       }
+     }else if (filtroCiudad != null && filtroTipo == null) {
+       for (i=0;i<datos.length;i++){
+       if (datos[i].Ciudad == filtroCiudad && toNumber(datos[i].Precio) > filtroMinimo && toNumber(datos[i].Precio) < filtroMaximo){
+         $('.colContenido').append(plantilla(datos[i].Direccion,datos[i].Ciudad,datos[i].Telefono,datos[i].Codigo_Postal,datos[i].Tipo,datos[i].Precio));
+       }
+      }
+     }else if (filtroCiudad == null && filtroTipo != null) {
+       for (i=0;i<datos.length;i++){
+       if (datos[i].Tipo == filtroTipo && toNumber(datos[i].Precio) > filtroMinimo && toNumber(datos[i].Precio) < filtroMaximo){
+         $('.colContenido').append(plantilla(datos[i].Direccion,datos[i].Ciudad,datos[i].Telefono,datos[i].Codigo_Postal,datos[i].Tipo,datos[i].Precio));
+       }
+      }
+     }else if(filtroCiudad != null && filtroTipo != null){
+       for (i=0;i<datos.length;i++){
+       if (datos[i].Ciudad == filtroCiudad && datos[i].Tipo == filtroTipo && toNumber(datos[i].Precio) > filtroMinimo && toNumber(datos[i].Precio) < filtroMaximo){
+         $('.colContenido').append(plantilla(datos[i].Direccion,datos[i].Ciudad,datos[i].Telefono,datos[i].Codigo_Postal,datos[i].Tipo,datos[i].Precio));
+       }
+      }
+     }
+   })
+ }
+/*
+  Funcion para crear la estructura que se agrega al codigo HTML
+*/
+  function plantilla(direccion,ciudad,telefono,codigo,tipo,precio){
+    estructura = "<div class='itemMostrado card'>" +
+                 "<img src='img/home.jpg' alt='Demo'>" +
+                 "<div class='card-stacked'>" +
+                 "<strong>Dirección: </strong>" + direccion + "</br>" +
+                 "<strong>Ciudad: </strong>" + ciudad + "</br>" +
+                 "<strong>Teléfono: </strong>" + telefono + "</br>" +
+                 "<strong>Código Postal: </strong>" + codigo + "</br>" +
+                 "<strong>Tipo: </strong>" + tipo + "</br>" +
+                 "<strong>Precio: </strong><span class='precioTexto'>" + precio + "</span></br>" +
+                 "<div class='card-action'>VENTAS</div>" +
+                 "</div>" +
+                 "</div>";
+    return estructura
+  }
+
 /*
   Creación de una función personalizada para jQuery que detecta cuando se detiene el scroll en la página
 */
