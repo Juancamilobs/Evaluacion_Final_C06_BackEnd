@@ -23,6 +23,9 @@ function cargarDatos(){
   }).then(function () {
       cargarTipo(datos);
       cargarCiudad(datos);
+      cargarFiltros();
+      mostrarTodos(datos);
+      filtrar();
 
   });
 
@@ -33,14 +36,12 @@ function cargarDatos(){
 function cargarCiudad (archivo){
   for (i=0;i<archivo.length;i++){
     ciudad = archivo[i].Ciudad;
-
     if ($("option[value='"+ciudad+"']").length!=0){
       continue
     }else{
       estructura = "<option value='"+ciudad+"'>"+ciudad+"</option>";
       $('#selectCiudad').append(estructura);
     }
-
   }
   selectInit();
 };
@@ -50,18 +51,58 @@ function cargarCiudad (archivo){
 function cargarTipo (archivo){
   for (i=0;i<archivo.length;i++){
     tipo = archivo[i].Tipo;
-
     if ($("option[value='"+tipo+"']").length!=0){
       continue
     }else{
       estructura = "<option value='"+tipo+"'>"+tipo+"</option>";
       $('#selectTipo').append(estructura);
     }
-
   }
   selectInit();
 };
 
+/*
+  Funcion para leer los filtros de la busqueda personalizada
+*/
+  function cargarFiltros(){
+    filtroCiudad = $('#selectCiudad').val();
+    filtroTipo = $('#selectTipo').val();
+    filtroMinimo = toNumber($('.irs-from').text());
+    filtroMaximo = toNumber($('.irs-to').text());
+  }
+
+  /*
+  Funcion para convertir los rangos de precios a numeros
+  */
+  function toNumber(cifra){
+    numeroTemp = Number(cifra.replace("$","").replace(" ",""));
+    return numeroTemp
+  }
+/*
+  Funcion para activar el boton mostrar todos
+*/
+  function mostrarTodos(datos){
+    $('#btnTodos').on('click',function(){
+        for (i=0;i<datos.length;i++){
+          estructura = "<div class='itemMostrado card'>" +
+                       "<img src='img/home.jpg' alt='Demo'>" +
+                       "<div class='card-stacked'>" +
+                       "<strong>Dirección: </strong>" + datos[i].Direccion + "</br>" +
+                       "<strong>Ciudad: </strong>" + datos[i].Ciudad + "</br>" +
+                       "<strong>Teléfono: </strong>" + datos[i].Telefono + "</br>" +
+                       "<strong>Código Postal: </strong>" + datos[i].Codigo_Postal + "</br>" +
+                       "<strong>Tipo: </strong>" + datos[i].Tipo + "</br>" +
+                       "<strong>Precio: </strong><span class='precioTexto'>" + datos[i].Precio + "</span></br>" +
+                       "<div class='card-action'>VENTAS</div>" +
+                       "</div>" +
+                       "</div>";
+          $('.colContenido').append(estructura);
+        }
+    })
+  }
+/*
+  Funcion para filtrar las propiedades
+*/
 /*
   Creación de una función personalizada para jQuery que detecta cuando se detiene el scroll en la página
 */
@@ -115,5 +156,4 @@ function playVideoOnScroll(){
 
 inicializarSlider();
 playVideoOnScroll();
-selectInit();
 cargarDatos();
